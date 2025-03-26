@@ -1,0 +1,1 @@
+Your cropped Images will be availabe here in their assorted folders.

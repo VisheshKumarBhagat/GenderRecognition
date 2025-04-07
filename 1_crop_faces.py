@@ -3,13 +3,13 @@ import cv2
 from glob import glob
 import matplotlib.pyplot as plt
 
-HARR_CLASSIFIER = 'HaarCascadeModel/haarcascade_frontalface_alt2.xml'
+HARR_CLASSIFIER = 'HaarCascadeModel/haarcascade_frontalface_default.xml'
 REDUCE_FACTOR = 1
 SCALE_FACTOR = 1.3
 MIN_NEIGHBOURS = 3
 
-female_path = glob('./DATASETS/female/*.png')
-male_path = glob('./DATASETS/male/*.png')
+female_path = glob('./DATASETS/female/*.png') + glob('./DATASETS/female/*.jpg')
+male_path = glob('./DATASETS/male/*.png') + glob('./DATASETS/male/*.jpg')
 
 print(f'Male images: {len(male_path)}, Female images: {len(female_path)}')
 

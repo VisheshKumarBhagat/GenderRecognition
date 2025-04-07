@@ -5,7 +5,7 @@ import pickle
 
 import warnings
 warnings.filterwarnings('ignore')
-
+IMAGE_SIZE = 150
 MAX_IMAGES = 5000
 female_path = glob('./crop_data/female/*.jpg')[:MAX_IMAGES]
 male_path = glob('./crop_data/male/*.jpg')[:MAX_IMAGES]
@@ -23,20 +23,23 @@ def get_image_size(path):
     img = cv2.imread(path)
     return img.shape[0]
 
+
+print('Done reading images')
 df['dimension'] = df['filepath'].apply(get_image_size)
 print(df.shape)
 
-df_filter = df.query('dimension > 120')
+df_filter = df.query('dimension > 200')
 
+print(df_filter['dimension'].mean())
 def structuring(path):
     try:
         img = cv2.imread(path)
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         size = gray.shape[0]
-        if size>=169:
-            gray_resize = cv2.resize(gray,(169,169),cv2.INTER_AREA)
+        if size>=IMAGE_SIZE:
+            gray_resize = cv2.resize(gray,(IMAGE_SIZE,IMAGE_SIZE),cv2.INTER_AREA)
         else:
-            gray_resize = cv2.resize(gray,(169,169),cv2.INTER_CUBIC)
+            gray_resize = cv2.resize(gray,(IMAGE_SIZE,IMAGE_SIZE),cv2.INTER_CUBIC)
         
         flatten_image = gray_resize.flatten()
         return flatten_image
@@ -57,5 +60,5 @@ data['gender'] = df_filter['gender']
 data.isnull().sum().sum()
 data.dropna(inplace=True)
 
-pickle.dump(data,open('./data/data_images_169_169.pickle',mode='wb'))
+pickle.dump(data,open('./data/data_images_150_150.pickle',mode='wb'))
 print(data.head())
